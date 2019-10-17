@@ -10,8 +10,16 @@
           
 <!--
           Additions: There are new assets, interactivity, more animations, and the space is more populated.
-          All assets were made by me in Blender. Interactivity: Clicking on the water makes an audio file of waves crashing play.
-          Animations: The sun rises and sets. The sky changes color from light blue to black timed with the sun's movement. A fish jumps over the main island. A large fish chases smaller fish around the main island. A fish jumps and flips in the air before landing back in the ocean. A fish swims back and forth next to the island. Clouds roll back and forth across the sky. A falcon paces on the central island. 
+          All assets were made by me in Blender. 
+          Interactivity: 
+        Click the falcon to scare it away. 
+        Click the water to have a wave pass over the scene. Click on the wave again to repeat.
+        Clicking on the water makes an audio file of waves crashing play.
+          Animations: The sun rises and sets. The sky changes color from light blue to black timed with the sun's movement. 
+            A fish jumps over the main island. A large fish chases smaller fish around the main island. 
+            A fish jumps and flips in the air before landing back in the ocean. 
+            A fish swims back and forth next to the island. Clouds roll back and forth across the sky. 
+            A falcon paces on the central island. 
           
 -->
         
@@ -24,6 +32,13 @@
             //assets
 --------------------
             <a-assets>
+            
+            //wave asset
+            <a-asset-item src="assets/wave_model.obj" id="wave_obj"></a-asset-item>
+            <a-asset-item id="wave_mtl" src="assets/wave_model.mtl"></a-asset-item>
+            <a-mixin id="wave" ></a-mixin>
+                
+                
             //bird asset
             <a-asset-item src="assets/bird_model.obj" id="bird_obj"></a-asset-item>
             <a-asset-item id="bird_mtl" src="assets/bird_model.mtl"></a-asset-item>
@@ -81,7 +96,7 @@
             
             //sun
             <a-entity position="12 -5 0" animation="property:rotation; to:0 0 -360; loop: true; dur: 40000; easing: linear;">
-            <a-sphere color=yellow radius=3 position="-35 0 0">
+            <a-sphere color=yellow radius=3 position="-40 0 0">
             </a-sphere>
             </a-entity> 
             
@@ -128,8 +143,11 @@
             //light
 <!--            <a-entity light="type: spot; angle: 90; distance: 15; target: 0 0 0; position: 0 20 0;"></a-entity>-->
             
+            //wave
+            <a-entity id=bigWave mixin="wave" obj-model="obj: #wave_obj; mtl: #wave_mtl" rotation= "0 90 0" position = "-40 -5 0" scale="2 2 2" visible = false animation="property: position; from: -40 -5 0; to: 40 -5 0; startEvents: click; dur: 4000;"> </a-entity>
+            
             //falcon
-            <a-entity mixin="bird" obj-model="obj: #bird_obj; mtl: #bird_mtl" position="2 0.3 0" rotation = "0 30 0" scale= ".5 .5 .5" animation="property: position; from: 2 0.3 0; to: 4 .3 0; loop: true; dir: alternate; dur: 1000;" animation__2="property: rotation; to: 0 180 0; loop:true; dir: alternate; delay: 1000; dur: 1000;"></a-entity>
+            <a-entity mixin="bird" obj-model="obj: #bird_obj; mtl: #bird_mtl" position="2 0.3 0" rotation = "0 30 0" scale= ".5 .5 .5" animation="property: position; from: 2 0.3 0; to: 4 .3 0; loop: true; dir: alternate; dur: 1000;" animation__2="property: rotation; to: 0 180 0; loop:true; dir: alternate; delay: 1000; dur: 1000;" event-set__vistext="_event:mouseenter; _target:#clickMe; visible: true" event-set__hidetext="_event:mouseleave; _target:#clickMe; visible: false" event-set__hide="_event:click; _target:#bird; visible: false"> </a-entity>
             
             //falcon text
             <a-entity position="2 .3 0" animation="property:rotation; to:0 360 0; loop: true; dur: 30000; easing: linear;">
@@ -234,7 +252,9 @@
             <a-entity mixin="tree" obj-model="obj: #tree_obj; mtl: #tree_mtl" position="5 -3 -30" scale=".7 .7 .7"></a-entity>
 ---------------------
             //water 
-            <a-plane src="#ground" height="80" width="80" position="0 -5 0" rotation="-90 0 0" sound="src:#waves; on: click" event-set__vistext="_event:mouseenter; _target:#clickMe; visible: true" event-set__hidetext="_event:mouseleave; _target:#clickMe; visible: false"></a-plane>           
+            <a-plane src="#ground" height="80" width="80" position="0 -5 0" rotation="-90 0 0" sound="src:#waves; on: click" event-set__vistext="_event:mouseenter; _target:#clickMe; visible: true" event-set__hidetext="_event:mouseleave; _target:#clickMe; visible: false"
+            event-set__wave="_event:click; _target:#bigWave; visible: true;"
+            ></a-plane>           
 
           
             
