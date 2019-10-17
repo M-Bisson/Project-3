@@ -1,0 +1,252 @@
+<DOCTYPE html>
+    <html>
+      <head>
+          <title> Aframe Project </title>
+          //Original Image Source (Project 2): https://www.allaboutbirds.org/guide/Peregrine_Falcon/id
+          
+          //Ground image source: https://www.stocksy.com/749205/ocean-from-above
+          
+          //Sound source: http://soundbible.com/1935-Ocean-Waves.html
+          
+<!--
+          Additions: There are new assets, interactivity, more animations, and the space is more populated.
+          All assets were made by me in Blender. Interactivity: Clicking on the water makes an audio file of waves crashing play.
+          Animations: The sun rises and sets. The sky changes color from light blue to black timed with the sun's movement. A fish jumps over the main island. A large fish chases smaller fish around the main island. A fish jumps and flips in the air before landing back in the ocean. A fish swims back and forth next to the island. Clouds roll back and forth across the sky. A falcon paces on the central island. 
+          
+-->
+        
+          
+        <script src="https://aframe.io/releases/0.9.2/aframe.min.js"></script>
+        <script src="https://unpkg.com/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+      </head>
+      <body>
+        <a-scene>
+            //assets
+--------------------
+            <a-assets>
+            //bird asset
+            <a-asset-item src="assets/bird_model.obj" id="bird_obj"></a-asset-item>
+            <a-asset-item id="bird_mtl" src="assets/bird_model.mtl"></a-asset-item>
+            <a-mixin id="bird" ></a-mixin>
+                
+            <img id="ground" src="image/water.jpg">
+            
+            //cliff asset
+            <a-asset-item src="assets/cliff_model.obj" id="cliff_obj"></a-asset-item>
+            <a-asset-item id="cliff_mtl" src="assets/cliff_model.mtl"></a-asset-item>
+            <a-mixin id="cliff" ></a-mixin>
+                
+            //bush asset
+            <a-asset-item src="assets/bush_model.obj" id="bush_obj"></a-asset-item>
+            <a-asset-item id="bush_mtl" src="assets/bush_model.mtl"></a-asset-item>
+            <a-mixin id="bush" ></a-mixin>
+
+            //tree asset
+            <a-asset-item src="assets/small_tree_model.obj" id="tree_obj"></a-asset-item>
+            <a-asset-item id="tree_mtl" src="assets/small_tree_model.mtl"></a-asset-item>
+            <a-mixin id="tree" ></a-mixin>
+            
+            //waves audio
+            <audio id="waves" src="assets/Ocean_Waves-Mike_Koenig-980635527.mp3" autoplay preload></audio>
+            
+            //red fish asset
+            <a-asset-item src="assets/red_fish_model.obj" id="red_fish_obj"></a-asset-item>
+            <a-asset-item src="assets/red_fish_model.mtl" id="red_fish_mtl"></a-asset-item>
+            <a-mixin id="red_fish"></a-mixin>
+                
+            //green fish asset
+            <a-asset-item src="assets/green_fish_model.obj" id="green_fish_obj"></a-asset-item>
+            <a-asset-item src="assets/green_fish_model.mtl" id="green_fish_mtl"></a-asset-item>
+            <a-mixin id="green_fish"></a-mixin>
+            
+            //black fish asset
+            <a-asset-item src="assets/black_fish_model.obj" id="black_fish_obj"></a-asset-item>
+            <a-asset-item src="assets/black_fish_model.mtl" id="black_fish_mtl"></a-asset-item>
+            <a-mixin id="black_fish"></a-mixin>
+                
+            //cloud asset
+            <a-asset-item src="assets/cloud_model.obj" id="cloud_obj"></a-asset-item>
+            <a-asset-item src="assets/cloud_model.mtl" id="cloud_mtl"></a-asset-item>
+            <a-mixin id="cloud"></a-mixin>
+            
+            //water image asset
+            <img id="ground" src="image/water.jpg">
+            </a-assets>
+            
+        
+    -----------
+            
+            //sky
+            <a-sky animation="property: material.color; from:#4f8ba8; to:#000000; dur: 20000;  dir: alternate; loop: true;"></a-sky>
+            
+            //sun
+            <a-entity position="12 -5 0" animation="property:rotation; to:0 0 -360; loop: true; dur: 40000; easing: linear;">
+            <a-sphere color=yellow radius=3 position="-35 0 0">
+            </a-sphere>
+            </a-entity> 
+            
+            // back clouds
+    -----------
+            <a-entity animation="property: position; from: 20 0 0; to: 0 0 0; dur: 12000; loop:true; easing: linear; dir: alternate;">
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 90 0" position = "20 15 5"> </a-entity>
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 180 0" position = "20 20 -5"></a-entity>
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 180 0" position = "20 30 -15" scale="3 3 3"></a-entity>
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 180 0" position = "20 20 10"></a-entity>
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 180 0" position = "20 20 -20"></a-entity>
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 180 0" position = "20 30 25" scale="3 3 3"></a-entity>
+                
+            </a-entity>
+    -----------
+            
+            // middle clouds
+    -----------
+            <a-entity animation="property: position; from: 0 0 0; to: -20 0 0; dur: 12000; loop:true; easing: linear; dir: alternate;">
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 90 0" position = "0 15 -5"> </a-entity>
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 180 0" position = "0 20 5"></a-entity>
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 180 0" position = "0 30 15" scale="3 3 3"></a-entity>
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 180 0" position = "0 20 -10"></a-entity>
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 90 0" position = "0 20 20"></a-entity>
+                
+            <a-entity mixin="cloud" obj-model="obj: #cloud_obj; mtl: #cloud_mtl" rotation= "0 90 0" position = "0 30 -25" scale="3 3 3"></a-entity>
+                
+            </a-entity>
+    -----------
+            
+            
+            
+            //light
+<!--            <a-entity light="type: spot; angle: 90; distance: 15; target: 0 0 0; position: 0 20 0;"></a-entity>-->
+            
+            //falcon
+            <a-entity mixin="bird" obj-model="obj: #bird_obj; mtl: #bird_mtl" position="2 0.3 0" rotation = "0 30 0" scale= ".5 .5 .5" animation="property: position; from: 2 0.3 0; to: 4 .3 0; loop: true; dir: alternate; dur: 1000;" animation__2="property: rotation; to: 0 180 0; loop:true; dir: alternate; delay: 1000; dur: 1000;"></a-entity>
+            
+            //falcon text
+            <a-entity position="2 .3 0" animation="property:rotation; to:0 360 0; loop: true; dur: 30000; easing: linear;">
+            <a-entity position="2 1 0"
+            text="anchor: center; width: 1.5; color: white; value: Caw! Caw!" scale="7 7 7" animation="property:position; from: 2 1 0; to: 2 1.5 2; loop:true; easing:linear; dir: alternate;">
+            </a-entity>
+            </a-entity> 
+            
+            //chasing red fish
+            <a-entity position="12 -5 0"animation="property:rotation; to:0 360 0; loop: true; dur: 5000; easing: linear;">
+            <a-entity mixin="red_fish" obj-model="obj: #red_fish_obj; mtl: #red_fish_mtl" position="-12 0 0" scale=".2 .2 .2"> </a-entity>
+            </a-entity>
+            
+            //old animation
+            //animation="property: position; from: -3 -5 0; to: -3 -5 6; loop:true; dir:alternate;" animation__2="property: rotation; to: 0 180 0; loop:true; dir: alternate; delay: 3000;"
+            
+            //fleeing school of fish
+    -----------------
+            <a-entity position="12 -5 0"animation="property:rotation; to:0 360 0; loop: true; dur: 5000; easing: linear;">
+            <a-entity mixin="black_fish" obj-model="obj: #black_fish_obj; mtl: #black_fish_mtl" position="-12 0 3" scale=".1 .1 .1"> </a-entity>
+            </a-entity>
+            
+            <a-entity position="12 -5 0"animation="property:rotation; to:0 360 0; loop: true; dur: 5000; easing: linear;">
+            <a-entity mixin="black_fish" obj-model="obj: #black_fish_obj; mtl: #black_fish_mtl" position="-12.5 0 3" scale=".1 .1 .1"> </a-entity>
+            </a-entity>
+            
+            <a-entity position="12 -5 0"animation="property:rotation; to:0 360 0; loop: true; dur: 5000; easing: linear;">    
+            <a-entity mixin="black_fish" obj-model="obj: #black_fish_obj; mtl: #black_fish_mtl" position="-11.5 0 3" scale=".1 .1 .1"> </a-entity>
+            </a-entity>
+            
+            <a-entity position="12 -5 0"animation="property:rotation; to:0 360 0; loop: true; dur: 5000; easing: linear;">    
+            <a-entity mixin="black_fish" obj-model="obj: #black_fish_obj; mtl: #black_fish_mtl" position="-12.25 0 4" scale=".1 .1 .1"> </a-entity>
+            </a-entity>
+            
+            <a-entity position="12 -5 0"animation="property:rotation; to:0 360 0; loop: true; dur: 5000; easing: linear;">
+            <a-entity mixin="black_fish" obj-model="obj: #black_fish_obj; mtl: #black_fish_mtl" position="-11.75 0 4" scale=".1 .1 .1"> </a-entity>
+            </a-entity>
+--------------------
+            //twisting green fish
+            <a-entity mixin="green_fish" obj-model="obj: #green_fish_obj; mtl: #green_fish_mtl" position="10 -5 15" scale=".2 .2 .2" rotation= "0 90 0" animation="property: position; from: 10 -5 10; to: 15 -5 10; loop:true; dir:alternate;" animation__2="property: rotation; to: 0 270 0; loop:true; dir: alternate; delay:500; "></a-entity>
+            
+            //jumping green fish
+            <a-entity position="12 -5 0"animation="property:rotation; to:0 0 -190; loop: true; dur: 2000; easing: linear;">
+            <a-entity mixin="green_fish" obj-model="obj: #green_fish_obj; mtl: #green_fish_mtl" position="-12 0 0" scale=".2 .2 .2" rotation="-90 90 0"> </a-entity>
+            </a-entity>
+            
+            //jumping black fish 
+            <a-entity mixin="black_fish" obj-model="obj: #black_fish_obj; mtl: #black_fish_mtl" position="10 -6 15" scale=".2 .2 .2" rotation= "270 180 0" animation="property: position; from: 20 -6 0; to: 20 0 0; loop:true; dir:alternate;" animation__2="property: rotation; to: 0 0 0; loop:true; dir: alternate; delay: 1000; "></a-entity>
+            
+            //main cliff
+            <a-entity mixin="cliff" obj-model="obj: #cliff_obj; mtl: #cliff_mtl" position="5 -2 0"></a-entity>
+            
+            //surrounding cliffs
+-----------------
+            <a-entity mixin="cliff" obj-model="obj: #cliff_obj; mtl: #cliff_mtl"  rotation ="0 -90 0" position="5 -4 -30"></a-entity>
+            
+            <a-entity mixin="cliff" obj-model="obj: #cliff_obj; mtl: #cliff_mtl" position="-20 -4 20" scale=".5 .5 .5"></a-entity>
+            
+            <a-entity mixin="cliff" obj-model="obj: #cliff_obj; mtl: #cliff_mtl"  rotation =" 0 90 0" position="25 -2 30"></a-entity>
+            
+-----------------
+            //bushes and trees
+-----------------
+            //main island
+            <a-entity mixin="bush" obj-model="obj: #bush_obj; mtl: #bush_mtl" position="9 -1 2" scale=".3 .3 .3"></a-entity>
+            
+            <a-entity mixin="bush" obj-model="obj: #bush_obj; mtl: #bush_mtl" position="15 -1 -1" scale=".3 .3 .3"></a-entity>
+            
+            <a-entity mixin="bush" obj-model="obj: #bush_obj; mtl: #bush_mtl" position="5 -1 -2" scale=".3 .3 .3"></a-entity>
+            
+            <a-entity mixin="bush" obj-model="obj: #bush_obj; mtl: #bush_mtl" position="13 -1 -4" scale=".3 .3 .3"></a-entity>
+            
+            <a-entity mixin="bush" obj-model="obj: #bush_obj; mtl: #bush_mtl" position="11 -2 7" scale=".3 .3 .3"></a-entity>
+            
+            <a-entity mixin="tree" obj-model="obj: #tree_obj; mtl: #tree_mtl" position="7 -1 3" scale=".5 .5 .5"></a-entity>
+            
+            <a-entity mixin="tree" obj-model="obj: #tree_obj; mtl: #tree_mtl" position="10 -1 -3" scale=".5 .5 .5"></a-entity>
+            
+            //back island            
+            <a-entity mixin="tree" obj-model="obj: #tree_obj; mtl: #tree_mtl" position="25 -.5 30" scale=".5 .5 .5"></a-entity>
+            
+            <a-entity mixin="bush" obj-model="obj: #bush_obj; mtl: #bush_mtl" position="30 -1 27" scale=".3 .3 .3"></a-entity>
+            
+            <a-entity mixin="bush" obj-model="obj: #bush_obj; mtl: #bush_mtl" position="20 -1 25" scale=".3 .3 .3"></a-entity>
+            
+            //front island
+            
+            <a-entity mixin="bush" obj-model="obj: #bush_obj; mtl: #bush_mtl" position="-15 -4 17" scale=".3 .3 .3"></a-entity>
+            
+            <a-entity mixin="bush" obj-model="obj: #bush_obj; mtl: #bush_mtl" position="-20 -4 23" scale=".3 .3 .3"></a-entity>
+            
+            <a-entity mixin="tree" obj-model="obj: #tree_obj; mtl: #tree_mtl" position="-20 -4 20" scale=".5 .5 .5"></a-entity>
+            
+            <a-entity mixin="tree" obj-model="obj: #tree_obj; mtl: #tree_mtl" position="-18 -3 22" scale=".5 .5 .5"></a-entity>
+            
+            //right island
+            
+            <a-entity mixin="bush" obj-model="obj: #bush_obj; mtl: #bush_mtl" position="8 -3 -20" scale=".3 .3 .3"></a-entity>
+            
+            <a-entity mixin="bush" obj-model="obj: #bush_obj; mtl: #bush_mtl" position="2 -3 -25" scale=".3 .3 .3"></a-entity>
+            s
+            <a-entity mixin="tree" obj-model="obj: #tree_obj; mtl: #tree_mtl" position="5 -3 -30" scale=".7 .7 .7"></a-entity>
+---------------------
+            //water 
+            <a-plane src="#ground" height="80" width="80" position="0 -5 0" rotation="-90 0 0" sound="src:#waves; on: click" event-set__vistext="_event:mouseenter; _target:#clickMe; visible: true" event-set__hidetext="_event:mouseleave; _target:#clickMe; visible: false"></a-plane>           
+
+          
+            
+            <a-entity position="12 0 0" animation="property:rotation; to:0 360 0; loop: true; dur: 30000; easing: linear;">
+            <a-entity position=".5 -.5 24"
+            text="anchor: center; width: 1.5; color: white; value: Click on the water for audio!" scale=".5 .5 .5" animation="property:position; from: .5 -.5 24; to: .5 -.4 24; loop:true; easing:linear; dir: alternate;">
+            </a-entity>
+            <a-camera position="0 0 25"> <a-cursor> </a-cursor>
+                  <a-text id="clickMe" value="Click me!"  position="0 .3 -5" visible="false"></a-text>
+             </a-camera>
+            </a-entity>
+        </a-scene>
+      </body>
+    </html>
+</DOCTYPE>
